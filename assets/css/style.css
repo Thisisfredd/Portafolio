@@ -848,10 +848,10 @@ section {
   padding: 15px;
   font-weight: 600;
 }
-.contact .error-message br + br {
+.contact  .error-message br + br {
   margin-top: 25px;
 }
-.contact .sent-message {
+.contact  .sent-message {
   display: none;
   color: #fff;
   background: #18d26e;
