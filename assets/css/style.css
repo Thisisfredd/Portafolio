@@ -829,18 +829,18 @@ section {
   border-color: #ffb727;
   background: #ffb727;
 }
-.contact .php-email-form {
+.contact {
   box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
   padding: 27px;
 }
-.contact .php-email-form .validate {
+.contact .validate {
   display: none;
   color: red;
   margin: 0 0 15px 0;
   font-weight: 400;
   font-size: 13px;
 }
-.contact .php-email-form .error-message {
+.contact .error-message {
   display: none;
   color: #fff;
   background: #ed3c0d;
@@ -848,10 +848,10 @@ section {
   padding: 15px;
   font-weight: 600;
 }
-.contact .php-email-form .error-message br + br {
+.contact .error-message br + br {
   margin-top: 25px;
 }
-.contact .php-email-form .sent-message {
+.contact .sent-message {
   display: none;
   color: #fff;
   background: #18d26e;
@@ -859,13 +859,13 @@ section {
   padding: 15px;
   font-weight: 600;
 }
-.contact .php-email-form .loading {
+.contact .loading {
   display: none;
   background: #fff;
   text-align: center;
   padding: 15px;
 }
-.contact .php-email-form .loading:before {
+.contact .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -877,21 +877,21 @@ section {
   -webkit-animation: animate-loading 1s linear infinite;
   animation: animate-loading 1s linear infinite;
 }
-.contact .php-email-form input, .contact .php-email-form textarea {
+.contact input, .contact textarea {
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
 }
-.contact .php-email-form input::focus, .contact .php-email-form textarea::focus {
+.contact input::focus, .contact textarea::focus {
   background-color: #ffb727;
 }
-.contact .php-email-form input {
+.contact input {
   padding: 10px 15px;
 }
-.contact .php-email-form textarea {
+.contact textarea {
   padding: 12px 15px;
 }
-.contact .php-email-form button[type=submit] {
+.contact button[type=submit] {
   background: #ffb727;
   border: 0;
   padding: 10px 24px;
@@ -899,7 +899,7 @@ section {
   transition: 0.4s;
   border-radius: 5px;
 }
-.contact .php-email-form button[type=submit]:hover {
+.contact button[type=submit]:hover {
   background: #ffc85a;
 }
 @-webkit-keyframes animate-loading {
