@@ -723,7 +723,8 @@ section {
 --------------------------------------------------------------*/
 .portfolio-info{
   background: white;
-  position: fixed;
+  position: sticky;
+  top: 80px;
 }
 
 .portfolio-details {
