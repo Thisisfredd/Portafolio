@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Summary Machine TimeLapse</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/ico.ico" rel="icon">
+  <link href="assets/img/ico.ico" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Satisfy" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex justify-content-center align-items-center ">
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="index.html">Home</a></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Summary Machine TimeLapse</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li>Summary Machine TimeLapse</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+
+              <div class="swiper-slide">
+
+                <p>
+                Empezamos tramitando una petición icmp o ping para verificar si tenemos conexión con la máquina.
+                <center><p style="background-color: #9b9b9b ;">$ ping 10.10.11.152</p>	</center>
+                Ahora utilizando nmap empezare con algunos escaneos.
+                <br> <br> El primer escaneo que utilizaré va ser el siguiente:
+                <img src="TimeLapse/Nmap1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+
+                  <p>
+                  <br>Luego de saber los puertos que están abiertos, verificamos la version y el servicio que están <br>corriendo en cada puerto:
+                  <br><img src="TimeLapse/Nmap2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  </p>
+                
+                  <p>
+                    <br>En nuestro escaneo podemos ver de primeras que smb2 está open.
+                  </p>
+
+                  <p>
+                    <br>así que podemos usar smbclient para ver carpetas compartidas.
+                    <br><img src="TimeLapse/smb1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Pero además de smbclient, podemos usar el “smbmap” para verificar donde tenemos acceso y donde no.
+                    <br><img src="TimeLapse/smb2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Ya que sabemos cuáles podemos leer, fui a “Shares” y explorando descargue un archivo .zip, El cual tenía contraseña, entonces decidí intentar crackear la contraseña.
+                    <br><img src="TimeLapse/smb3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  </p>
+
+                  <p>
+                    <br>Con la herramienta “john the Ripper” primer convertí el archivo .zip a un hash.
+                    <center><p style="background-color: #9b9b9b ;">$ Zip2john “archivo.zip” > hash.txt</p>	</center>
+                  </p>
+
+                  <p>
+                    <br>Luego utilicé john con un diccionario de palabras para poder descifrar la contraseña.                  
+                    <center><p style="background-color: #9b9b9b ;">$ John -w=/usr/share/wordlists/rockyou.txt hash.txt</p>	</center>
+                  </p>
+
+                  <p>
+                    <br>Y este fue el resultado:                   
+                    <br><img src="TimeLapse/john1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Y me descargó un binario.                  
+                    <br><img src="TimeLapse/binario1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Lo primero que pensé fue en ejecutarlo, pero como se puede ver la extension “.pfx” no se ejecuta de la misma manera, así que investigué un poco.                    
+                    <br><img src="TimeLapse/Investigacion1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Al usar el comando investigado para extraer la key, me pide una contraseña, la cual podemos crackear usando una herramienta llamada “crackpkcs12”.                                           
+                  </p>
+
+                  <p>Que se utiliza de la siguiente manera:                   
+                    <br><img src="TimeLapse/Tool1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p> Ahora que tenemos la contraseña podemos extraer la clave ssl.                                  
+                  </p>
+
+                  <p>Si le hacemos un cat al archivo key.pem, tenemos una clave privada para un usuario ssh.                                                  
+                    <br><img src="TimeLapse/key.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Pero ademas de la key, tenemos el certificado.
+                    <br><img src="TimeLapse/cert.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Ahora que tenemos una clave privada y un certificado, podemos utilizar una herramienta llamada, “evil-winrm” para conectarnos de forma directa.                                                  
+                    <br><img src="TimeLapse/evilwinrm1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    En el escritorio de nuestro usuario actual, podemos encontrar la user.txt
+                  </p>
+
+                  <p>                                                 
+                    Ahora tenemos que escalar privilegios.
+                  </p>
+
+                  <p>Explorando e investigando un poco… <br> <br>
+                    Existe una ruta que guarda comandos utilizados por la powershell anteriormente.                                                                   
+                    <br><img src="TimeLapse/Powershell1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Si buscamos la ruta anterior, se muestra los siguiente, Nos muestra una contraseña en texto claro y un usuario.                                              
+                    <br><img src="TimeLapse/Powershell2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como tenemos unas credenciales, podemos verificar con el comando “net user svc_deploy”, ver si el usuario esta en el 
+                    grupo “Remote Management Use” para poder conectarnos con evil-winrm.                                           
+                    <br><img src="TimeLapse/evilwinrm2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Lo cual funcionó.                                              
+                    <br><img src="TimeLapse/evilwinrm3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Ahora que estamos en otro usuario con un poco mas de privilegios, podemos usar el siguiente script para dumpear contraseñas.                                               
+                    <br><img src="TimeLapse/GetPass.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Lo descargo en mi maquina atacante y abro un servidor http para pasarlo a la maquina víctima.                                                                  
+                    <br><img src="TimeLapse/server-python3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>                                             
+                    <br><img src="TimeLapse/Trans-File.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Después de tenerla en la maquina victima solo tenemos que usar el comando Get-LAPSPasswords.                                              
+                    <br><img src="TimeLapse/evilwinrm4.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como podemos ver, nos muestra la misma contraseña varias veces, al Host dc01.timelapse.htb <br> <br>
+                    Podemos verificar si este usuario es el administrador y si esa es su contraseña.
+                                                                  
+                    <br><img src="TimeLapse/evilwinrm5.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Como podemos ver estamos como adnimistrador. <br> <br>
+                    Ahora solo tenemos que buscar la flag. <br> <br>
+                    Que se encuentra en el escritorio del usuario TRX.
+                                                                 
+                  </p>
+
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <center><h3 style="color: #FF0000;">Information</h3></center>
+              <ul>
+                <li><strong>#Pentesting #Cybersecurity #RedTeam</strong></li>
+                <li><strong>Machine</strong>: TimeLapse</li>
+                <li><strong>Difficulty</strong>: Easy</li>
+                <li><strong>Plataforma</strong>: HACKTHEBOX</li>
+                <li><strong>Sistema Operativo</strong>: Parrot</li>
+                <li><strong>Skills</strong>: SMB Enumeration Cracking ZIp Password Protected File (fcrackzip) Cracking and reading .PFX File 
+                  (crackpkcs12) Gaining SSL access with Evil-WinRM Information Leakage - Reading the user's Powershell history (User Pivoting) 
+                  Abusing LAPS to get passwords (Get-LAPSPasswords.ps1) [Privilege Escalation]</li>
+              </ul>
+              <img src="TimeLapse/TimeLapse.png"  width="500" height="500" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container">
+        <h3>Freddy Alfonseca Santos</h3>
+        <p>Tecnologo en Ciberseguridad, Pentester Jr.</p>
+        <div class="social-links">
+          <a href="https://www.youtube.com/channel/UC2bGk5ThBtWzzfCefGSpaGQ" class="twitter"><i class="bx bi-youtube"></i></a>
+          <a href="https://github.com/SlowSky0" class="facebook"><i class="bx bi-github"></i></a>
+          <a href="https://www.instagram.com/freddywithf/" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/freddy-alfonseca-santos-5813971b2/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
