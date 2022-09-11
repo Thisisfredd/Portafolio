@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Summary Machine Noter</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/ico.ico" rel="icon">
+  <link href="assets/img/ico.ico" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Satisfy" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex justify-content-center align-items-center ">
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="index.html">Home</a></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Summary Machine Noter</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li>Summary Machine Noter</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- Breadcrumbs Section -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+
+              <div class="swiper-slide">
+
+                <p>
+                Empezamos tramitando una petición icmp o ping para verificar si tenemos conexión con la máquina.
+                <center><p style="background-color: #9b9b9b ;">$ ping 10.10.11.160</p>	</center>
+                Ahora utilizando nmap empezare con algunos escaneos.
+                <br> <br> El primer escaneo que utilizaré va ser el siguiente:
+                <img src="Noter/Nmap1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+
+                  <p>
+                  <br>Luego de saber los puertos que están abiertos, verificamos la version y el servicio que están <br>corriendo en cada puerto:
+                  <br><img src="Noter/Nmap2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  </p>
+
+                  <p>
+                    <br>Como vemos hay un puerto 5000 abierto, se ve bastante curioso, fui al navegador y vemos un login y un register, obviamente me registre e inicie sesión. <br> <br>
+                    Hay una opcion de ser usuario premiun y ademas viendo las cookies tenemos una cookie tipo json web token, es que bastante vulnerable, así que podemos ver lo siguiente.
+                    
+                  </p>
+
+                  <p>
+                    <br>Luego de registrarme y ver Json Web Token, necesitaba una forma de saber que usuario es válido, así que empecé a probar. <br> <br>
+                    Una forma que utilice para validar si hay usuarios validos fue la siguiente, usando ffuf.
+                    <br><img src="Noter/Fuff1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Y blue es un usuario valido, así vamos con el json web token (JWT). <br> <br>
+                    Utilizaremos la siguiente manera para descifrar la clave secreta del JWT.
+                    <br><img src="Noter/Flask1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Ya que conocemos la clave secreta, podemos generar un JWT con el mismo flask-usingn.
+                    <br><img src="Noter/Flask2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus" >
+                  </p>
+
+                  <p>
+                    <br>Cambiamos el JWT y recargamos la pagina. <br> <br>
+                    Dentro del usuario blue, podemos notar que tenemos la siguiente nota.                  
+                    <br><img src="Noter/Information1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>La cual nos da un usuario y una contraseña para el servidor ftp. <br> <br>
+                    Si ingresamos las credenciales, podemos ver que nos da acceso. <br> <br>
+                    Tenemos un archivo de politicas, dentro de ellas hay unas politicas de creación de contraseñas que dice lo siguiente.
+                                     
+                    <br><img src="Noter/Information2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Tenemos un apartado que nos describe cuales son las credenciales por defecto de los usuarios. <br> <br>
+                    Anteriormente vimos un usuario llamado “ftpadmin”, dentro de la nota… <br> <br>
+                    Probando las credenciales por defecto. <br> <br>
+                    Nos pudimos conectar.
+                                       
+                    <br><img src="Noter/ftp1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Dentro del servidor ftp encontramos unos archivos .zip. <br> <br>
+                    Los archivos .zip contienen un código en Python del backend de la página web, contienen dos archivos, uno de ellos contiene un código que nos lleva a otra página la cual contiene un “export_note directory web”.
+                                      
+                    <br><img src="Noter/Information3.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>La aplicación básicamente utiliza un convertidor a pdf llamado “md-to-pdf” el cual es vulnerable a RCE. Usando la siguiente sintaxis de código.                                                  
+                    <br><img src="Noter/Script1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    <br>Desde nuestra maquina atacante llamamos un archivo que nosotros configuramos para ejecutar el código que deseemos utilizando “execSync” para ejecutar el comando deseado, utilice un script .sh el cual contiene un oneliner de una reverse shell.
+                    <br><img src="Noter/Script2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>
+                    Solo tenemos que abrir un servidor con python3 llamando al archivo test.md con la direccion ip de nuestra vpn mediante el apartado anterior de “export directly from cloud” y abrimos un puerto con nc para estar en escucha para cuando se ejecute el comando y pasa lo siguiente.
+                  </p>
+
+                  <p>Y atrapamos la shell reversa.                                                               
+                    <br><img src="Noter/usertxt.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>                                     
+                    Tenemos acceso y tenemos la flag, ahora tenemos que escalar privilegios. <br> <br>
+                    Para esto, en los archivos anteriores donde teníamos el código fuente, conseguimos unas credenciales para iniciar en mysql servidor como root.
+                  </p>
+
+                  <p>Investigando un poco, me tope con una forma de leer archivos ya que tenemos las credenciales del usuario root.                                           
+                    <br><img src="Noter/CVE.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Básicamente complicamos el script de CVE anterior de la siguiente manera y lo pasamos a la maquina víctima.                                            
+                    <br><img src="Noter/escalada1.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>Luego solo seguimos los siguientes pasos.                                               
+                    <br><img src="Noter/escalada2.png" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+                  </p>
+
+                  <p>                                                   
+                    Con los pasos anteriores conseguimos leer el archivo deseado, en mi caso flag final.
+                  </p>
+
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <center><h3 style="color: #FF0000;">Information</h3></center>
+              <ul>
+                <li><strong>#Pentesting #Cybersecurity #RedTeam</strong></li>
+                <li><strong>Machine</strong>: TimeLapse</li>
+                <li><strong>Difficulty</strong>: Medium</li>
+                <li><strong>Plataforma</strong>: HACKTHEBOX</li>
+                <li><strong>Sistema Operativo</strong>: Parrot</li>
+                <li><strong>Skills</strong>: Brute forcing Username using FFUF - Cracking JWT Secret password using "Flask-unsign" - 
+                  Leak Informacion from Notes - Leak Credentials from backup - Analising Code Python - RCE from Export Apart using URL Custom - 
+                  Escalada Using CVE and abusing mysql</li>
+              </ul>
+              <img src="Noter/Noter.png"  width="500" height="500" class="img-fluid portfolio-lightbox preview-link bx bx-plus">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container">
+        <h3>Freddy Alfonseca Santos</h3>
+        <p>Tecnologo en Ciberseguridad, Pentester Jr.</p>
+        <div class="social-links">
+          <a href="https://www.youtube.com/channel/UC2bGk5ThBtWzzfCefGSpaGQ" class="twitter"><i class="bx bi-youtube"></i></a>
+          <a href="https://github.com/SlowSky0" class="facebook"><i class="bx bi-github"></i></a>
+          <a href="https://www.instagram.com/freddywithf/" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/freddy-alfonseca-santos-5813971b2/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
